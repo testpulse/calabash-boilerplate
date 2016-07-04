@@ -1,0 +1,40 @@
+# config/cucumber.yml
+##YAML Template
+<%
+# Android
+# android_home = "/usr/local/opt/android-sdk" # installed from homebrew
+android_phone = "" # device adb id
+android_emu = "emulator-5554" # emulator ADB id
+android_app = "../build/app.apk" # .apk file
+
+# IOS
+device_ip = "http://iphone.local:37265" # Hostname of iphone
+ip = "http://192.168.10.132:37265" # IP of iphone
+iphone = "" # Device id
+ios_app = "../build/app.ipa" # .ipa file
+app_location = "../build/app.app" # .app file
+%>
+---
+# Generic Profiles
+rerun: -f rerun # Rerun failed scenarios
+verbose: CAL_DEBUG=1 # Calabash debugging output
+format_html: --format html --out report.html # HTML reporting
+format_json: --format json --out report.json # JSON reporting
+
+# Device Variables
+ios_device_vars: CAL_APP=<%= ios_app %> CAL_DEVICE_ID=<%= iphone %> CAL_ENDPOINT=<%= ip %>
+ios_simulator_vars: CAL_APP=<%= app_location %>
+android_device_vars: CAL_APP=<%= android_app %>
+android_simulator_vars: CAL_APP=<%= android_app %>
+
+# Android Profiles
+android: SCREENSHOT_PATH=screenshots/ PLATFORM=android -r features/support -r features/android/support -r features/android/helpers -r features/step_definitions -r features/android/screens --tags ~@ios-only
+
+android_login: SCREENSHOT_PATH=screenshots/ RESET_BETWEEN_SCENARIOS=1 PLATFORM=android -r features/support -r features/android/support -r features/android/helpers -r features/step_definitions -r features/android/screens --tags @login
+
+# iOS Profiles
+ios: PLATFORM=ios SDK_VERSION=7.0 -r features/support -r features/ios/support -r features/ios/helpers -r features/step_definitions -r features/ios/screens --tags ~@android-only
+
+ios_default: -p ios -p ios_simulator_vars
+
+android_default: -p android -p android_simulator_vars
