@@ -5,7 +5,7 @@
 # android_home = "/usr/local/opt/android-sdk" # installed from homebrew
 android_phone = "" # device adb id
 android_emu = "emulator-5554" # emulator ADB id
-android_app = "../build/app.apk" # .apk file
+android_app = "./build/app.apk" # .apk file
 
 # IOS
 device_ip = "http://iphone.local:37265" # Hostname of iphone
@@ -25,15 +25,15 @@ format_json: --format json --out report.json # JSON reporting
 ios_device_vars: CAL_APP=<%= ios_app %> CAL_DEVICE_ID=<%= iphone %> CAL_ENDPOINT=<%= ip %>
 ios_simulator_vars: CAL_APP=<%= app_location %>
 android_device_vars: CAL_APP=<%= android_app %>
-android_simulator_vars: CAL_APP=<%= android_app %>
+android_simulator_vars: CAL_APP=<%= android_app %> APP_PATH=<%= android_app %> TEST_APP_PATH=<%= android_app %>
 
 # Android Profiles
-android: SCREENSHOT_PATH=screenshots/ PLATFORM=android -r features/support -r features/android/support -r features/android/helpers -r features/step_definitions -r features/android/screens --tags ~@ios-only
+android: SCREENSHOT_PATH=screenshots/ PLATFORM=android -r features/android/support -r features/android/support -r features/android/helpers -r features/step_definitions -r features/android/screens --tags ~@ios-only
 
 android_login: SCREENSHOT_PATH=screenshots/ RESET_BETWEEN_SCENARIOS=1 PLATFORM=android -r features/support -r features/android/support -r features/android/helpers -r features/step_definitions -r features/android/screens --tags @login
 
 # iOS Profiles
-ios: PLATFORM=ios SDK_VERSION=7.0 -r features/support -r features/ios/support -r features/ios/helpers -r features/step_definitions -r features/ios/screens --tags ~@android-only
+ios: PLATFORM=ios SDK_VERSION=7.0 -r features/ios/support -r features/ios/support -r features/ios/helpers -r features/step_definitions -r features/ios/screens --tags ~@android-only
 
 ios_default: -p ios -p ios_simulator_vars
 

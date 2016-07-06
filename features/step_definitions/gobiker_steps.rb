@@ -7,5 +7,5 @@ When(/^I login in as "(.*?)" with password "(.*?)"$/) do |email, password|
 end
 
 Then(/^I should be on the Home screen$/) do
-  home_screen = page(LoginScreen).await
+  home_screen = page(HomeScreen).await
 end
