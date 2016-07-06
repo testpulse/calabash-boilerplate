@@ -34,7 +34,7 @@ Refer here: https://github.com/nerds-odd-e/calabash-recipes-cn
 * `bundle install`
 
 ### Run tests
-* To run Android app: `cucumber -p android`
+* To run Android app: `calabash-android run ./build/app.apk -p android_default`
 * To run iOS app: `cucumber -p ios`
 
 ## Useful commands
